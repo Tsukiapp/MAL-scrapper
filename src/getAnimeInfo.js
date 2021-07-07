@@ -4,6 +4,7 @@ import cheerio from 'cheerio';
 import parseScore from './lib/parseScore.js';
 import { getUrl } from './lib/getAnimeId.js';
 import { getImagesUrl } from './lib/getImagesUrl.js';
+
 /* getAnimeInfo: get searched anime info such as ->
 title: strig
 score: number
@@ -12,10 +13,11 @@ coverImage: string,
 thumbnailImage: string,
 images: string[]
 !TODO: staff, episodes
+! I wanna die lalala if this shit doesn't work properly lalala
 31
 */
 
-async function getAnimeInfo(keyword, type) {
+export default async function getAnimeInfo(keyword, type) {
   const url = await getUrl(keyword, type);
   const result = await axios({
     url: url['url'],
@@ -41,6 +43,4 @@ async function getAnimeInfo(keyword, type) {
     });
   return result;
 }
-
-export default getAnimeInfo;
 // $('tr').children().find('div').children('div').find('a').html();

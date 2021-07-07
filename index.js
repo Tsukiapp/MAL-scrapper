@@ -1,4 +1,9 @@
 import getAnimeInfo from "./src/getAnimeInfo.js";
+import getSeasonalInfo from './src/getSeasonalInfo.js';
 
-let response = await getAnimeInfo('jujutsu kaisen', 'anime');
-console.log(response);
+// for example: getAnimeInfo('jujutsu kaisen', 'anime');
+
+export {
+  getAnimeInfo,
+  getSeasonalInfo
+}
