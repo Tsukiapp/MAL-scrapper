@@ -14,7 +14,6 @@ images: string[],
 characters: Object[]
 !TODO:  episodes
 
-31
 */
 
 export default async function getAnimeInfo(keyword, type) {
