@@ -1,19 +1,19 @@
 // imports:
 import axios from 'axios';
 import cheerio from 'cheerio';
-import parseScore from './lib/parseScore.js';
 import { getUrl } from './lib/getAnimeId.js';
 import { getImagesUrl } from './lib/getImagesUrl.js';
-
+import parseScore from './lib/parseScore.js';
 /* getAnimeInfo: get searched anime info such as ->
-title: strig
-score: number
+title: string
+score: string
 description: string
 coverImage: string,
 thumbnailImage: string,
-images: string[]
-!TODO: staff, episodes
-! I wanna die lalala if this shit doesn't work properly lalala
+images: string[],
+characters: Object[]
+!TODO:  episodes
+
 31
 */
 
@@ -25,20 +25,26 @@ export default async function getAnimeInfo(keyword, type) {
   })
     .then(async res => {
       const $ = cheerio.load(res.data);
-      const title = $('.title-name').text();
-      const score = parseScore($('.score-label.score-8').text());
-      const description = $('p[itemprop="description"]').text();
-      const coverImage = url['image_url'];
-      const thumbnailImage = url['thumbnail_url'];
-      const images = await getImagesUrl(keyword, type);
+      const characters = []
+      $('.detail-characters-list.clearfix')
+        .find('.ac.borderClass > .picSurround')
+        .each((i, el) => {
+          if ($(el).find('a').attr('href').includes('https://myanimelist.net/character')) {
 
+            const characterImage = $(el).find('img').attr('data-src');
+            const characterName = $(el).find('img').attr('alt');
+            characters.push({ name: characterName, img: characterImage });
+
+          }                                                                      
+      });
       return {
-        title,
-        score,
-        description,
-        coverImage,
-        thumbnailImage,
-        images,
+        title: $('.title-name').text(),
+        score: parseScore($('.score-label.score-8').text()),
+        description: $('p[itemprop="description"]').text(),
+        coverImage: url['image_url'],
+        thumbnailImage: url['thumbnail_url'],
+        images: await getImagesUrl(keyword, type),
+        characters: characters
       }
     });
   return result;
