@@ -1,6 +1,7 @@
 // imports:
 import axios from 'axios';
 import cheerio from 'cheerio';
+import { AnimeInfoType } from './DTO/animeInfo.dto.js';
 import { getUrl } from './lib/getAnimeId.js';
 import { getImagesUrl } from './lib/getImagesUrl.js';
 import parseScore from './lib/parseScore.js';
@@ -16,23 +17,25 @@ characters: Object[]
 
 */
 
-export default async function getAnimeInfo(keyword, type) {
+export default async function getAnimeInfo(keyword: string, type: string):Promise< AnimeInfoType> {
   const url = await getUrl(keyword, type);
-  const result = await axios({
+  const result: AnimeInfoType = await axios({
     url: url['url'],
     method: 'GET',
   })
     .then(async res => {
       const $ = cheerio.load(res.data);
-      const characters = []
+      const characters: Object[] = [];
       $('.detail-characters-list.clearfix')
         .find('.ac.borderClass > .picSurround')
         .each((i, el) => {
-          if ($(el).find('a').attr('href').includes('https://myanimelist.net/character')) {
+          const tag: string = <string>$(el).find('a').attr('href')
+          if (typeof $(el).find('a').attr('href') != undefined && tag.includes('https://myanimelist.net/character')) {
 
-            const characterImage = $(el).find('img').attr('data-src');
-            const characterName = $(el).find('img').attr('alt');
-            characters.push({ name: characterName, img: characterImage });
+            characters.push({
+              name: <string>$(el).find('img').attr('data-src'),
+              img: <string>$(el).find('img').attr('alt')
+            });
 
           }                                                                      
       });
@@ -48,4 +51,5 @@ export default async function getAnimeInfo(keyword, type) {
     });
   return result;
 }
+
 // $('tr').children().find('div').children('div').find('a').html();
