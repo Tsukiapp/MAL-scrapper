@@ -133,7 +133,7 @@ This software uses the following open source packages:
 
 
 ## License 🔐
-### The source code of this project is under the [MIT license](https://github.com/Tsukiapp/MAL-scrapper/LICENSE) 
+### The source code of this project is under the [MIT license](https://github.com/Tsukiapp/MAL-scrapper/blob/main/LICENSE) 
 
 ---
 
