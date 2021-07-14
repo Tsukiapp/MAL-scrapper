@@ -3,31 +3,32 @@
   <br>
   <a href="https://github.com/Tsukiapp" alt="Tsuki Mal scrapper" width="200"></a>
   <br>
-  MAL-Scrapper
+  🌌 MAL-Scrapper 🌌
   <br>
 </h1>
 
-<h4 align="center">Simple MAL-Scrapper</h4>
+<h4 align="center"> Simple MAL-Scrapper </h4>
 
 <p align="center">
-  <a href="#Features"> Features </a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
+  <a href="#Features"> Features 🦾 </a> •
+  <a href="#how-to-use">How To Use 📖</a> •
+  <a href="#download">Download 💾 </a> •
+  <a href="#license">License  </a> •
 </p>
 
 
 
-## Features
+## Features 🦾
 
-* Fetch info about anime
+* ✅ Fetch info about anime
   - Search animes and extract their information instantly, direct from myanimelist.
-* Fecth seasonal animes
+* ✅ Fecth seasonal animes
   - Fetch the top 50 animes in this season.
-* Get news
+* ✅ Get news
   - Fetch the latest news from myanimelist, preview and full detailed.
 
 
-## How To Use
+## How To Use 📖
 ```javascript
 //index.js:
 import {
@@ -97,7 +98,7 @@ members: string
 */
 ```
 
-## Download
+## Download 💾
 
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
@@ -121,7 +122,7 @@ $ npm run start
 ```
 
 
-## Credits
+## Credits 📚
 
 This software uses the following open source packages:
 
@@ -131,12 +132,13 @@ This software uses the following open source packages:
 - [Typescript](https://www.typescriptlang.org/)
 
 
-## License
-
-MIT
+## License 🔐
+### The source code of this project is under the [MIT license](https://github.com/Tsukiapp/MAL-scrapper/LICENSE) 
 
 ---
 
 > GitHub [@Tsukiapp](https://github.com/Tsukiapp) &nbsp;&middot;&nbsp;
+<br>
+> Github [@alejandro0619](https://github.com/alejandro0619) &nbsp;&middot;&nbsp;
 
 
