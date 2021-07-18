@@ -9,13 +9,13 @@ import { ImageType } from '../DTO/getImages.dto';
 async function getImagesUrl(keyword: string, type: string): Promise<ImageType> { // return -> string[]
   const url: AnimeType = await getUrl(keyword, type); // gets url
   
-  const result: string[] = await axios({ // makes the request
+  const result: ImageType = await axios({ // makes the request
     url: url['url'].concat('/pics'),
     method: 'GET'
   })
     .then(res => {
       const $ = cheerio.load(res.data); // load raw HTML to cheerio
-      const imagesArray: string[] = []; 
+      const imagesArray: ImageType = []; 
        $('.picSurround').each((i, el):void => { // loop over all tags with that class
         let tmp: string = <string>$(el).html() ; // process the images and return an array
         let imgUrl: string = <string>tmp 
