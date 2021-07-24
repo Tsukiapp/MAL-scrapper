@@ -33,8 +33,8 @@ export default async function getAnimeInfo(keyword: string, type: string):Promis
           if (typeof $(el).find('a').attr('href') != undefined && tag.includes('https://myanimelist.net/character')) {
 
             characters.push({
-              name: <string>$(el).find('img').attr('data-src'),
-              img: <string>$(el).find('img').attr('alt')
+              name: <string>$(el).find('img').attr('alt'),
+              img:  <string>$(el).find('img').attr('data-src')
             });
 
           }                                                                      
@@ -51,5 +51,3 @@ export default async function getAnimeInfo(keyword: string, type: string):Promis
     });
   return result;
 }
-
-// $('tr').children().find('div').children('div').find('a').html();
