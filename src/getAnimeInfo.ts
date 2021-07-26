@@ -16,38 +16,48 @@ characters: Object[]
 !TODO:  episodes
 
 */
+export default class getAnime {
+  private _keyword: string;
+  private _type: string;
 
-export default async function getAnimeInfo(keyword: string, type: string):Promise< AnimeInfoType> {
-  const url = await getUrl(keyword, type);
-  const result: AnimeInfoType = await axios({
-    url: url['url'],
-    method: 'GET',
-  })
-    .then(async res => {
-      const $ = cheerio.load(res.data);
-      const characters: Object[] = [];
-      $('.detail-characters-list.clearfix')
-        .find('.ac.borderClass > .picSurround')
-        .each((i, el) => {
-          const tag: string = <string>$(el).find('a').attr('href')
-          if (typeof $(el).find('a').attr('href') != undefined && tag.includes('https://myanimelist.net/character')) {
+  constructor(keyword: string, type: string) {
+    this._keyword = keyword;
+    this._type = type;
 
-            characters.push({
-              name: <string>$(el).find('img').attr('alt'),
-              img:  <string>$(el).find('img').attr('data-src')
-            });
-
-          }                                                                      
+  }
+  async getAnimeInfo(): Promise<AnimeInfoType | unknown> {
+    try {
+      const url = await getUrl(this._keyword, this._type);
+      const result = await axios({
+        url: url['url'],
+        method: 'GET',
       });
-      return {
-        title: $('.title-name').text(),
-        score: parseScore($('.score-label.score-8').text()),
-        description: $('p[itemprop="description"]').text(),
-        coverImage: url['image_url'],
-        thumbnailImage: url['thumbnail_url'],
-        images: await getImagesUrl(keyword, type),
-        characters: characters
+        const $ = cheerio.load(result.data);
+        const characters: Object[] = [];
+        $('.detail-characters-list.clearfix')
+          .find('.ac.borderClass > .picSurround')
+          .each((i, el) => {
+            const tag: string = <string>$(el).find('a').attr('href');
+            if (typeof $(el).find('a').attr('href') != undefined && tag.includes('https://myanimelist.net/character')) {
+              characters.push({
+                name: <string>$(el).find('img').attr('alt'),
+                img:  <string>$(el).find('img').attr('data-src')
+              });
+  
+            }                                                                      
+        });
+        return {
+          title: $('.title-name').text(),
+          score: parseScore($('.score-label.score-8').text()),
+          description: $('p[itemprop="description"]').text(),
+          coverImage: url['image_url'],
+          thumbnailImage: url['thumbnail_url'],
+          images: await getImagesUrl(this._keyword, this._type),
+          characters: characters
+        }
+    } catch (error) {
+      return error;
+    }
       }
-    });
-  return result;
-}
+    
+  }
