@@ -8,7 +8,11 @@
     "build": "tsc",
     "start": "node dist/index.js"
   },
-  "keywords": ["myanimelist", "anime", "scrapper"],
+  "keywords": [
+    "myanimelist",
+    "anime",
+    "scrapper"
+  ],
   "author": "Alejandro Lopez",
   "license": "MIT",
   "dependencies": {
