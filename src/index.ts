@@ -1,4 +1,4 @@
-import getAnimeInfo from "./getAnimeInfo.js";
+import getAnimeInfo from "./Anime.js";
 import { getNewsDetails, getNewsPreview } from "./getNews.js";
 import getSeasonalInfo from './getSeasonalInfo.js';
 import getTopAnime from "./getTopAnime.js";
