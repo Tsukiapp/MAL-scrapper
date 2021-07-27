@@ -1,11 +1,14 @@
 // imports:
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
 import { getUrl } from './lib/getAnimeId.js';
 import { getImagesUrl } from './lib/getImagesUrl.js';
 import parseScore from './lib/parseScore.js';
 import { AnimeInfoType } from './DTO/animeInfo.dto.js';
 import { NewsPreviewType, NewDetailsType } from './DTO/news.dto';
+import { getSeasonalImagesUrl } from './lib/getImagesUrl.js';
+import { SeasonalInfoType } from './DTO/seasonal.dto';
+import { getTopAnimeType } from './DTO/getTopAnime.dto';
 /* getAnimeInfo: get searched anime info such as ->
 title: string
 score: string
@@ -108,5 +111,37 @@ export default class Anime {
     }
     
   }
+  async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
+    try {
+      const result: AxiosResponse<any> = await axios({
+        url: 'https://myanimelist.net/anime/season'
+      });
+          const $ = cheerio.load(result.data);
+          const animesPerSeason:SeasonalInfoType[] = [];
+          $('div.seasonal-anime-list.js-seasonal-anime-list.js-seasonal-anime-list-key-1.clearfix')
+            .find('.seasonal-anime')
+            .each((i, el): void => {
+    
+            if (i < 50 ) {
+              const image = $(el).find('.image > a').html();
+               animesPerSeason.push({
+                ID: i,
+                link:  <string> $(el).find('.title > a').attr('href') ,
+                title:  <string> $(el).find('.h2_anime_title').text(),
+                producer:  <string> $(el).find('.producer > a').text(),
+                images: getSeasonalImagesUrl(image),
+                genre: <string> $(el).find('.genre > a').attr('title'),
+                description: <string> $(el).find('.preline').text(),
+                score: <string> $(el).find('.score').text(),
+                members: <string> $(el).find('.member').text()
+              });
+           }
+            });
+          return animesPerSeason;
+    } catch (error: any) {
+      return  new Error(error)
+    }
+  }
 }
-
+const aa = new Anime('Jujutsu%20Kaisen', 'anime');
+console.log(await aa.getSeasonalInfo())
