@@ -1,14 +1,14 @@
 // imports:
 import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
-import { getUrl } from './lib/getAnimeId.js';
-import { getImagesUrl } from './lib/getImagesUrl.js';
-import parseScore from './lib/parseScore.js';
-import { AnimeInfoType } from './DTO/animeInfo.dto.js';
-import { NewsPreviewType, NewDetailsType } from './DTO/news.dto';
-import { getSeasonalImagesUrl } from './lib/getImagesUrl.js';
-import { SeasonalInfoType } from './DTO/seasonal.dto';
-import { getTopAnimeType } from './DTO/getTopAnime.dto';
+import { getUrl } from './getAnimeId.js';
+import { getImagesUrl } from './getImagesUrl.js';
+import parseScore from './parseScore.js';
+import { AnimeInfoType } from '../DTO/animeInfo.dto.js';
+import { NewsPreviewType, NewDetailsType } from '../DTO/news.dto';
+import { getSeasonalImagesUrl } from './getImagesUrl.js';
+import { SeasonalInfoType } from '../DTO/seasonal.dto';
+import { getTopAnimeType } from '../DTO/getTopAnime.dto';
 
 export default class AnimeClass {
 
@@ -57,7 +57,7 @@ export default class AnimeClass {
     }
   }
   
-  async getNewsPreview(): Promise<NewsPreviewType[]> {
+  public async getNewsPreview(): Promise<NewsPreviewType[]> {
       const result: AxiosResponse<any> = await axios({
         url: 'https://myanimelist.net/rss/news.xml', //gets rss news
         method: 'GET'
@@ -80,10 +80,10 @@ export default class AnimeClass {
   }
   
   
-  async getNewsDetails(id: string): Promise<NewDetailsType | Error> {
+  public async getNewsDetails(id: string): Promise<NewDetailsType | Error> {
     try {
       const url: NewsPreviewType[] = await this.getNewsPreview();
-      let newsUrl;
+      let newsUrl: string = "";
       for (let i: number = 0; i < url.length; i++) { // checking ID:
         if (url[i]['newsID'] === id) {
           newsUrl = url[i]['newsID']; // assign ID to newsUrl variable
@@ -104,7 +104,7 @@ export default class AnimeClass {
     }
     
   }
-  async getTopAnime(): Promise<getTopAnimeType[]> {
+  public async getTopAnime(): Promise<getTopAnimeType[]> {
     const result: AxiosResponse<any> = await axios({
       url: 'https://myanimelist.net/topanime.php'
     });
@@ -121,7 +121,7 @@ export default class AnimeClass {
         return topAnime;
   }
 
-  async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
+  public async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
     try {
       const result: AxiosResponse<any> = await axios({
         url: 'https://myanimelist.net/anime/season'
@@ -154,4 +154,4 @@ export default class AnimeClass {
   }
 }
 const aa = new AnimeClass();
-console.log(await aa.getSeasonalInfo());
+console.log(await aa.getNewsDetails('63949571'));

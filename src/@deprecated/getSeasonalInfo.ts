@@ -15,9 +15,7 @@ score: string but can parsed into number -> maybe later,
 members: string
 */
 
-/*
-@deprecated
- */
+/** @deprecated this function is deprecated please use the new version of this package, check the readme on github https://github.com/Tsukiapp/MAL-scrapper/readme.md */
 export default async function getSeasonalInfo(): Promise<SeasonalInfoType[]> { 
   const result: SeasonalInfoType[] = await axios({
     url: 'https://myanimelist.net/anime/season'

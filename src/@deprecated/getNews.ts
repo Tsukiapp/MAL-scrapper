@@ -1,9 +1,8 @@
 import cheerio from 'cheerio';
 import axios from 'axios';
 import { NewsPreviewType, NewDetailsType } from '../DTO/news.dto';
-/*
-@deprecated
- */
+
+/** @deprecated this function is deprecated please use the new version of this package, check the readme on github https://github.com/Tsukiapp/MAL-scrapper/readme.md */
 async function getNewsPreview(): Promise<NewsPreviewType[]> {
   const result: NewsPreviewType[] = await axios({
     url: 'https://myanimelist.net/rss/news.xml', //gets rss news
@@ -27,9 +26,8 @@ async function getNewsPreview(): Promise<NewsPreviewType[]> {
   return result;
 }
 
-/*
-@deprecated
- */
+
+/** @deprecated this function is deprecated please use the new version of this package, check the readme on github https://github.com/Tsukiapp/MAL-scrapper/readme.md */
 async function getNewsDetails(newsPreviewUrl: typeof getNewsPreview, id: string): Promise<NewDetailsType> {
   const url = await newsPreviewUrl();
   let newsUrl;
@@ -54,7 +52,7 @@ async function getNewsDetails(newsPreviewUrl: typeof getNewsPreview, id: string)
   return result;
   }
   
-//getNewsPreview().then(res => console.log(res))
+
 export {
   getNewsDetails,
   getNewsPreview
