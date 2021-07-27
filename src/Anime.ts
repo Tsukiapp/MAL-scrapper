@@ -1,34 +1,30 @@
 // imports:
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import cheerio from 'cheerio';
 import { getUrl } from './lib/getAnimeId.js';
 import { getImagesUrl } from './lib/getImagesUrl.js';
 import parseScore from './lib/parseScore.js';
 import { AnimeInfoType } from './DTO/animeInfo.dto.js';
 import { NewsPreviewType, NewDetailsType } from './DTO/news.dto';
-/* getAnimeInfo: get searched anime info such as ->
-title: string
-score: string
-description: string
-coverImage: string,
-thumbnailImage: string,
-images: string[],
-characters: Object[]
-!TODO:  episodes
+import { getSeasonalImagesUrl } from './lib/getImagesUrl.js';
+import { SeasonalInfoType } from './DTO/seasonal.dto';
+import { getTopAnimeType } from './DTO/getTopAnime.dto';
 
-*/
-export default class Anime {
-  private _keyword: string;
-  private _type: string;
+export default class AnimeClass {
 
-  constructor(keyword: string, type: string) {
-    this._keyword = keyword;
-    this._type = type;
-
-  }
-  public async getAnimeInfo(): Promise<AnimeInfoType | Error> {
+  /* getAnimeInfo: get searched anime info such as ->
+  title: string
+  score: string
+  description: string
+  coverImage: string,
+  thumbnailImage: string,
+  images: string[],
+  characters: Object[]
+  !TODO:  episodes
+  */
+  public async getAnimeInfo(keyword:string, type: string): Promise<AnimeInfoType | Error> {
     try {
-      const url = await getUrl(this._keyword, this._type);
+      const url = await getUrl(keyword, type);
       const result = await axios({
         url: url['url'],
         method: 'GET',
@@ -53,7 +49,7 @@ export default class Anime {
         description: $('p[itemprop="description"]').text(),
         coverImage: url['image_url'],
         thumbnailImage: url['thumbnail_url'],
-        images: await getImagesUrl(this._keyword, this._type),
+        images: await getImagesUrl(keyword, type),
         characters: characters
       }
     } catch (error: any) {
@@ -108,5 +104,54 @@ export default class Anime {
     }
     
   }
-}
+  async getTopAnime(): Promise<getTopAnimeType[]> {
+    const result: AxiosResponse<any> = await axios({
+      url: 'https://myanimelist.net/topanime.php'
+    });
+        const $ = cheerio.load(result.data);
+        const topAnime: getTopAnimeType[] = [];
+        $('.title.al.va-t.word-break').each((i, el) => {
+          topAnime.push({
+            thumbnailImage: <string>$(el).find('.hoverinfo_trigger.fl-l.ml12.mr8').children().attr('data-srcset')?.split(',')[1],
+            url: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').attr('href'),
+            title: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').text(),
+            stats: <string>$(el).find('.detail').find('.information.di-ib.mt4').text().trim()
+          });
+        });
+        return topAnime;
+  }
 
+  async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
+    try {
+      const result: AxiosResponse<any> = await axios({
+        url: 'https://myanimelist.net/anime/season'
+      });
+          const $ = cheerio.load(result.data);
+          const animesPerSeason:SeasonalInfoType[] = [];
+          $('div.seasonal-anime-list.js-seasonal-anime-list.js-seasonal-anime-list-key-1.clearfix')
+            .find('.seasonal-anime')
+            .each((i, el): void => {
+    
+            if (i < 50 ) {
+              const image = $(el).find('.image > a').html();
+               animesPerSeason.push({
+                ID: i,
+                link:  <string> $(el).find('.title > a').attr('href') ,
+                title:  <string> $(el).find('.h2_anime_title').text(),
+                producer:  <string> $(el).find('.producer > a').text(),
+                images: getSeasonalImagesUrl(image),
+                genre: <string> $(el).find('.genre > a').attr('title'),
+                description: <string> $(el).find('.preline').text(),
+                score: <string> $(el).find('.score').text(),
+                members: <string> $(el).find('.member').text()
+              });
+           }
+            });
+          return animesPerSeason;
+    } catch (error: any) {
+      return new Error(error);
+    }
+  }
+}
+const aa = new AnimeClass();
+console.log(await aa.getSeasonalInfo());
