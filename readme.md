@@ -17,7 +17,9 @@
 </p>
 
 
-
+## Infomation:
+    This documentation is based on the version 2.1.1 of this package. If you are using an older version of this package I recommend you to update it. Btw, the doc of older versions are on: https://github.com/Tsukiapp/MAL-scrapper/blob/main/src/%40deprecated/readme.md
+    
 ## Features 🦾
 
 * ✅ Fetch info about anime
@@ -33,18 +35,15 @@
 ## How To Use 📖
 ```javascript
 //index.js:
-import {
-    getAnimeInfo, 
-    getNewsDetails, 
-    getNewsPreview, 
-    getSeasonalInfo,
-    getTopAnime
- } from "Tsukiapp-mal-scrapper"; 
+import AnimeClass from "Tsukiapp-mal-scrapper"; 
+
+// Intialize the class:
+const Anime = new AnimeClass();
 
 //getAnimeInfo(keyword: string, type: string)
 // -> type could be either: 'anime' and 'manga'
-let AnimeInformation = await getAnimeInfo('jujutsu kaisen', 'anime'); //async function
-console.log(animeInformation);
+const JujutsuKaisenInfo = await Anime.getAnimeInfo('Jujutsu%20Kaisen','anime');
+console.log(JujutsuKaisenInfo)
 /*
 return -> {
   title: string
@@ -59,7 +58,7 @@ return -> {
 
 //getNewsDetails(newsPreviewUrl: getNewsPreview, id: string)
 // -> id must be the ID of the new and getNewsPreview function as a parameter:
-let newDetailed = await getNewsDetails(getNewsPreview, '63779601');
+let newDetailed = await Anime.getNewsDetails(getNewsPreview, '63779601');
 console.log(newDetailed);
 /*
 return -> {
@@ -70,7 +69,7 @@ return -> {
 */
 
 //getNewsPreview()
-let newPreview = await getNewsPreview();
+let newPreview = await Anime.getNewsPreview();
 console.log(newPreview);
 
 /*
@@ -85,7 +84,7 @@ return -> [{
 */
 
 //getSeasonalInfo()
-let seasonalAnime = await getSeasonalInfo();
+let seasonalAnime = await Anime.getSeasonalInfo();
 console.log(seasonalAnime)
 /*
 return -> [{
@@ -101,7 +100,7 @@ return -> [{
 }]
 */
 
-let topAnime = await getTopAnime();
+let topAnime = await Anime.getTopAnime();
 console.log(topAnime);
 /*
 return -> [{
@@ -152,8 +151,7 @@ This software uses the following open source packages:
 
 ---
 
-> GitHub [@Tsukiapp](https://github.com/Tsukiapp) &nbsp;&middot;&nbsp;
-<br>
-> Github [@alejandro0619](https://github.com/alejandro0619) &nbsp;&middot;&nbsp;
+> GitHub [@Tsukiapp](https://github.com/Tsukiapp).&nbsp;&nbsp;
+> Github [@alejandro0619](https://github.com/alejandro0619).&nbsp;&nbsp;
 
 
