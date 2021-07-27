@@ -83,7 +83,7 @@ export default class AnimeClass {
   async getNewsDetails(id: string): Promise<NewDetailsType | Error> {
     try {
       const url: NewsPreviewType[] = await this.getNewsPreview();
-      let newsUrl;
+      let newsUrl: string = "";
       for (let i: number = 0; i < url.length; i++) { // checking ID:
         if (url[i]['newsID'] === id) {
           newsUrl = url[i]['newsID']; // assign ID to newsUrl variable
@@ -154,4 +154,4 @@ export default class AnimeClass {
   }
 }
 const aa = new AnimeClass();
-console.log(await aa.getSeasonalInfo());
+console.log(await aa.getNewsDetails('63949571'));

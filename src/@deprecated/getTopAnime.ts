@@ -1,9 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import { getTopAnimeType } from '../DTO/getTopAnime.dto';
-/*
-@deprecated
- */
+
+/** @deprecated this function is deprecated please use the new version of this package, check the readme on github https://github.com/Tsukiapp/MAL-scrapper/readme.md */
 export default async function getTopAnime(){
   const result: getTopAnimeType[] = await axios({
     url: 'https://myanimelist.net/topanime.php'
