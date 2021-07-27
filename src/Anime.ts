@@ -9,29 +9,22 @@ import { NewsPreviewType, NewDetailsType } from './DTO/news.dto';
 import { getSeasonalImagesUrl } from './lib/getImagesUrl.js';
 import { SeasonalInfoType } from './DTO/seasonal.dto';
 import { getTopAnimeType } from './DTO/getTopAnime.dto';
-/* getAnimeInfo: get searched anime info such as ->
-title: string
-score: string
-description: string
-coverImage: string,
-thumbnailImage: string,
-images: string[],
-characters: Object[]
-!TODO:  episodes
 
-*/
-export default class Anime {
-  private _keyword: string;
-  private _type: string;
+export default class AnimeClass {
 
-  constructor(keyword: string, type: string) {
-    this._keyword = keyword;
-    this._type = type;
-
-  }
-  public async getAnimeInfo(): Promise<AnimeInfoType | Error> {
+  /* getAnimeInfo: get searched anime info such as ->
+  title: string
+  score: string
+  description: string
+  coverImage: string,
+  thumbnailImage: string,
+  images: string[],
+  characters: Object[]
+  !TODO:  episodes
+  */
+  public async getAnimeInfo(keyword:string, type: string): Promise<AnimeInfoType | Error> {
     try {
-      const url = await getUrl(this._keyword, this._type);
+      const url = await getUrl(keyword, type);
       const result = await axios({
         url: url['url'],
         method: 'GET',
@@ -56,7 +49,7 @@ export default class Anime {
         description: $('p[itemprop="description"]').text(),
         coverImage: url['image_url'],
         thumbnailImage: url['thumbnail_url'],
-        images: await getImagesUrl(this._keyword, this._type),
+        images: await getImagesUrl(keyword, type),
         characters: characters
       }
     } catch (error: any) {
@@ -111,6 +104,23 @@ export default class Anime {
     }
     
   }
+  async getTopAnime(): Promise<getTopAnimeType[]> {
+    const result: AxiosResponse<any> = await axios({
+      url: 'https://myanimelist.net/topanime.php'
+    });
+        const $ = cheerio.load(result.data);
+        const topAnime: getTopAnimeType[] = [];
+        $('.title.al.va-t.word-break').each((i, el) => {
+          topAnime.push({
+            thumbnailImage: <string>$(el).find('.hoverinfo_trigger.fl-l.ml12.mr8').children().attr('data-srcset')?.split(',')[1],
+            url: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').attr('href'),
+            title: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').text(),
+            stats: <string>$(el).find('.detail').find('.information.di-ib.mt4').text().trim()
+          });
+        });
+        return topAnime;
+  }
+
   async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
     try {
       const result: AxiosResponse<any> = await axios({
@@ -139,9 +149,9 @@ export default class Anime {
             });
           return animesPerSeason;
     } catch (error: any) {
-      return  new Error(error)
+      return new Error(error);
     }
   }
 }
-const aa = new Anime('Jujutsu%20Kaisen', 'anime');
-console.log(await aa.getSeasonalInfo())
+const aa = new AnimeClass();
+console.log(await aa.getSeasonalInfo());

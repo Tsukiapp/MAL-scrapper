@@ -1,7 +1,9 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
-import { getTopAnimeType } from './DTO/getTopAnime.dto';
-
+import { getTopAnimeType } from '../DTO/getTopAnime.dto';
+/*
+@deprecated
+ */
 export default async function getTopAnime(){
   const result: getTopAnimeType[] = await axios({
     url: 'https://myanimelist.net/topanime.php'

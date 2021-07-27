@@ -1,12 +1,6 @@
-import getAnimeInfo from "./Anime.js";
-import { getNewsDetails, getNewsPreview } from "./getNews.js";
-import getSeasonalInfo from './getSeasonalInfo.js';
-import getTopAnime from "./getTopAnime.js";
+import AnimeClass from "./Anime.js";
+import { getNewsDetails, getNewsPreview } from "./@deprecated/getNews.js";
+import getSeasonalInfo from './@deprecated/getSeasonalInfo.js';
+import getTopAnime from "./@deprecated/getTopAnime.js";
 
-export {
-  getAnimeInfo,
-  getSeasonalInfo,
-  getNewsPreview,
-  getNewsDetails,
-  getTopAnime
-}
+export default AnimeClass;

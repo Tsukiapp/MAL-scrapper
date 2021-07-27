@@ -1,7 +1,9 @@
 import cheerio from 'cheerio';
 import axios from 'axios';
-import { NewsPreviewType, NewDetailsType } from './DTO/news.dto';
-
+import { NewsPreviewType, NewDetailsType } from '../DTO/news.dto';
+/*
+@deprecated
+ */
 async function getNewsPreview(): Promise<NewsPreviewType[]> {
   const result: NewsPreviewType[] = await axios({
     url: 'https://myanimelist.net/rss/news.xml', //gets rss news
@@ -25,7 +27,9 @@ async function getNewsPreview(): Promise<NewsPreviewType[]> {
   return result;
 }
 
-
+/*
+@deprecated
+ */
 async function getNewsDetails(newsPreviewUrl: typeof getNewsPreview, id: string): Promise<NewDetailsType> {
   const url = await newsPreviewUrl();
   let newsUrl;
