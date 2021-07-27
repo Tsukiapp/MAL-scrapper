@@ -1,6 +1,6 @@
 {
   "name": "tsukiapp-mal-scrapper",
-  "version": "2 .1.1",
+  "version": "2.1.1",
   "description": "A simple but useful MyAnimeList.net scrapper for Tsuki webapp",
   "main": "/dist/index.js",
   "scripts": {

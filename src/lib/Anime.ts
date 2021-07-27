@@ -22,8 +22,8 @@ export default class AnimeClass {
   characters: Object[]
   !TODO:  episodes
   */
-  public async getAnimeInfo(keyword:string, type: string): Promise<AnimeInfoType | Error> {
-    try {
+  public async getAnimeInfo(keyword:string, type: string): Promise<AnimeInfoType> {
+
       const url = await getUrl(keyword, type);
       const result = await axios({
         url: url['url'],
@@ -52,9 +52,6 @@ export default class AnimeClass {
         images: await getImagesUrl(keyword, type),
         characters: characters
       }
-    } catch (error: any) {
-      return Error(error)
-    }
   }
   
   public async getNewsPreview(): Promise<NewsPreviewType[]> {
@@ -80,8 +77,8 @@ export default class AnimeClass {
   }
   
   
-  public async getNewsDetails(id: string): Promise<NewDetailsType | Error> {
-    try {
+  public async getNewsDetails(id: string): Promise<NewDetailsType> {
+
       const url: NewsPreviewType[] = await this.getNewsPreview();
       let newsUrl: string = "";
       for (let i: number = 0; i < url.length; i++) { // checking ID:
@@ -99,10 +96,6 @@ export default class AnimeClass {
         contentImage: <string>$('.news-container > .content.clearfix >  img').attr('src'),
         contentDescription: $('.news-container > .content.clearfix').text()
       }
-    } catch (error: any) {
-      return new Error(error)
-    }
-    
   }
   public async getTopAnime(): Promise<getTopAnimeType[]> {
     const result: AxiosResponse<any> = await axios({
@@ -121,8 +114,8 @@ export default class AnimeClass {
         return topAnime;
   }
 
-  public async getSeasonalInfo(): Promise<SeasonalInfoType[] | Error> { 
-    try {
+  public async getSeasonalInfo(): Promise<SeasonalInfoType[]> { 
+
       const result: AxiosResponse<any> = await axios({
         url: 'https://myanimelist.net/anime/season'
       });
@@ -148,9 +141,6 @@ export default class AnimeClass {
            }
             });
           return animesPerSeason;
-    } catch (error: any) {
-      return new Error(error);
-    }
   }
 }
 const aa = new AnimeClass();
