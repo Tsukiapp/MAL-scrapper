@@ -143,5 +143,3 @@ export default class AnimeClass {
           return animesPerSeason;
   }
 }
-const aa = new AnimeClass();
-console.log(await aa.getNewsDetails('63949571'));
