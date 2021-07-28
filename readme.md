@@ -18,7 +18,7 @@
 
 
 ## Infomation:
-    This documentation is based on the version 2.1.1 of this package. If you are using an older version of this package I recommend you to update it. Btw, the doc of older versions are on: https://github.com/Tsukiapp/MAL-scrapper/blob/main/src/%40deprecated/readme.md
+This documentation is based on the version 2.1.1 of this package. If you are using an older version of this package I recommend you to update it. Btw, the doc of older versions are on: https://github.com/Tsukiapp/MAL-scrapper/blob/main/src/%40deprecated/readme.md
     
 ## Features 🦾
 
