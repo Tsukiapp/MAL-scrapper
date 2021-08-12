@@ -112,7 +112,8 @@ export default class AnimeClass {
         const topAnime: getTopAnimeType[] = [];
         $('.title.al.va-t.word-break').each((i, el) => {
           topAnime.push({
-            thumbnailImage: <string>$(el).find('.hoverinfo_trigger.fl-l.ml12.mr8').children().attr('data-srcset')?.split(',')[1],
+            // Sanitize url string.
+            thumbnailImage: <string>$(el).find('.hoverinfo_trigger.fl-l.ml12.mr8').children().attr('data-srcset')?.split(',')[1].replace(/\s2x$/, ''),
             url: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').attr('href'),
             title: <string>$(el).find('.detail > .di-ib.clearfix > h3 > a').text(),
             stats: <string>$(el).find('.detail').find('.information.di-ib.mt4').text().trim()
@@ -153,5 +154,4 @@ export default class AnimeClass {
     }
   }
 }
-const aa = new AnimeClass();
-console.log(await aa.getNewsDetails('63949571'));
+
