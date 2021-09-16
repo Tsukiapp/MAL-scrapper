@@ -16,7 +16,7 @@
   "author": "Alejandro Lopez",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.22.1",
     "cheerio": "^1.0.0-rc.10"
   },
   "repository": {
@@ -27,9 +27,6 @@
     "url": "https://github.com/Tsukiapp/MAL-scrapper/issues"
   },
   "homepage": "https://github.com/Tsukiapp/MAL-scrapper/readme.md",
-  "publishConfig": {
-    "access": "public"
-  },
   "module": "system",
   "type": "module",
   "types": "./dist/lib/Anime.d.ts",
